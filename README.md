@@ -4,6 +4,7 @@ collaborative web application for interface design (UI)
 ## <a name="tech-stack">⚙️ Tech Stack</a>
 
 - React.js
+- React-router
 - TypeScript
 - Liveblocks
 - Fabric.js
