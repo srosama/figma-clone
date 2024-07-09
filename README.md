@@ -1,6 +1,19 @@
 # Figma Clone
 collaborative web application for interface design (UI) 
 
+## <a name="tech-stack">⚙️ Tech Stack</a>
+
+- React.js
+- TypeScript
+- Liveblocks
+- Fabric.js
+- Shadcn
+- Firebase 
+- MongoDB (NoSQL)
+- GSAP
+- Tailwind CSS
+
+
 # Project Development Rules
 1. **Follow & Create SDLC (Software Development Life Cycle)**
     - **Requirement Analysis:** Gather and document comprehensive requirements.
