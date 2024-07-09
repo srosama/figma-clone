@@ -8,8 +8,8 @@ collaborative web application for interface design (UI)
     - **Development:** Write clean, efficient, and scalable code.
     - **Testing:** Implement unit, integration, and end-to-end tests.
     - **Deployment:** Use CI/CD pipelines for seamless deployment.
-    - **Maintenance:** Regularly update and refactor the codebase.
-2. **Avoid Tutorials for Direct Implementation**
+    - **Maintenance:** Regularly update and refactor the codebase. 
+2. **Intermediate in React**
 3. **Algorithmic Thinking**
     - Approach problem-solving with a focus on algorithms and data structures.
     - Optimize solutions for efficiency and performance, considering time and space complexity.
