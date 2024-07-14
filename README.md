@@ -5,6 +5,7 @@ collaborative web application for interface design (UI)
 
 - React.js
 - React-router
+- Vite 
 - TypeScript
 - Liveblocks
 - Fabric.js
