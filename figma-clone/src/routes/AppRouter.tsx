@@ -1,24 +1,58 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
-
-import Login from '../pages/Login';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import NotFound from '../pages/NotFound';
+import ProtectedRoutes from '../utils/ProtectedRoutes';
+
+import Login from '../pages/Auth/Login';
+
+import Editor from '../pages/Editor/Editor';
+
+import PublicRoutesWithRules from '../utils/PublicRoutesWithRules';
+import Dashboard from '../pages/Dashboard/Dashboard';
+import Register from '../pages/Auth/Register';
+import Verify from '../pages/Auth/Verify';
+
+
+/*
+  User Is Not Authenticated:
+    !-> Register -> Verify-> Register-Serices -> Dashboard -> Edior
+    -> The user cannot access the protected routes
+    User Is Authenticated:
+    !-> Login -> Dashboard -> Edior 
+    -> Router can't access either the login or register pages 
+  User When To LogOut: 
+    -> Change the state in the (AuthContext) 
+    -> Delte the cookie or token and redirect to login
+*/
+
 
 const AppRouter: React.FC = () => {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (window.location.pathname === "/") {
-      navigate("/login");
-    }
-  }, [navigate]);
 
   return (
-    <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+    <>
+      <Routes>
+        {/* Public Routes */}
+        <Route element={<PublicRoutesWithRules />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path='/verify' element={<Verify />} />
+        </Route>
+
+        {/* Protected Routes */}
+        <Route element={<ProtectedRoutes />}>
+          <Route path='/' element={<Dashboard />} />
+          <Route path='/dashboard' element={<Dashboard />} />
+          <Route path='/editor' element={<Editor />}>
+            {/* <Route path='/editor/newfile' element={<Editor />} /> */}
+          </Route>
+        </Route>
+
+
+        {/* 404 Not Found */}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </>
   );
+
 };
 
 const MainApp: React.FC = () => (

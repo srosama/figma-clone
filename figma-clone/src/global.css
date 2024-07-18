@@ -2,17 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "@liveblocks/react-comments/styles.css";
+/* @import "@liveblocks/react-comments/styles.css"; */
+
+
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
 
 * {
-  font-family:
-    work sans,
-    sans-serif;
+    font-family: "Work Sans", sans-serif;
 }
 
 @layer utilities {
   .no-ring {
-    @apply outline-none ring-0 ring-offset-0 focus:ring-0 focus:ring-offset-0 focus-visible:ring-offset-0 !important;
+    @apply outline-none  ring-0 ring-offset-0 focus:ring-0 focus:ring-offset-0 focus-visible:ring-offset-0 !important;
   }
 
   .input-ring {
@@ -28,9 +30,6 @@
   }
 }
 
-@tailwind base;
-  @tailwind components;
-  @tailwind utilities;
 
   @layer base {
     :root {
@@ -97,3 +96,9 @@
       @apply bg-background text-foreground;
     }
   }
+
+/* CutomCss */
+
+.main-container-auth {
+  @apply relative h-screen w-full flex flex-col items-center justify-center;
+}
