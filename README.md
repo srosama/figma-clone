@@ -1,4 +1,18 @@
-# Figma Clone
+<div align="center">
+  <br />
+    <img src="https://github.com/user-attachments/assets/ee8f40de-9e24-4bdc-9c94-d22f05ef5174"/>
+  <br />
+
+  <div>
+    <img src="https://img.shields.io/badge/-TypeScript-black?style=for-the-badge&logoColor=white&logo=typescript&color=3178C6" alt="typescript" />
+    <img src="https://shields.io/badge/react-black?logo=react&style=for-the-badge" alt="reactjs" />
+    <img src="https://img.shields.io/badge/-Tailwind_CSS-black?style=for-the-badge&logoColor=white&logo=tailwindcss&color=06B6D4" alt="tailwindcss" />
+  </div>
+
+  <h3 align="center">Real Time Figma Clone</h3>
+</div>
+
+# Real-Time Figma Clone
 collaborative web application for interface design (UI) 
 
 ## <a name="tech-stack">⚙️ Tech Stack</a>
