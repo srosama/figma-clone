@@ -1,4 +1,4 @@
-# Figma Clone
+# Real-Time Figma Clone
 collaborative web application for interface design (UI) 
 
 ## <a name="tech-stack">⚙️ Tech Stack</a>
