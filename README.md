@@ -1,7 +1,5 @@
 <div align="center">
-  <br />
-    <img src="https://github.com/user-attachments/assets/ee8f40de-9e24-4bdc-9c94-d22f05ef5174"/>
-  <br />
+
 
   <div>
     <img src="https://img.shields.io/badge/-TypeScript-black?style=for-the-badge&logoColor=white&logo=typescript&color=3178C6" alt="typescript" />
