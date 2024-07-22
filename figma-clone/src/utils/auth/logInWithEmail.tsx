@@ -1,7 +1,7 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "./firebase-config";
+import { auth } from "../firebase-config";
 import { User } from 'firebase/auth';
-import { UserforForm } from "../types/AuthProps";
+import { UserforForm } from "../../types/AuthProps";
 
 
 

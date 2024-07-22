@@ -1,7 +1,7 @@
-import { fabric } from "fabric";
+import * as fabric from 'fabric';
 import { v4 as uuidv4 } from "uuid";
+import { CustomFabricObject } from "../types/IEditorProps";
 
-import { CustomFabricObject } from "@/types/type";
 
 export const handleCopy = (canvas: fabric.Canvas) => {
   const activeObjects = canvas.getActiveObjects();
@@ -128,3 +128,4 @@ export const handleKeyDown = ({
     e.preventDefault();
   }
 };
+

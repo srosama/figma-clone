@@ -1,8 +1,8 @@
 import { redirect } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthContext";
-import { googleIcon } from "../../utils"
-import { Button } from "./ui/button"
-import { signUpWithGoogle } from "../../utils/signUpWithGoogle";
+import { useAuth } from "../contexts/AuthContext";
+import { googleIcon } from "../utils"
+import { Button } from "./common/ui/button"
+import { signUpWithGoogle } from "../utils/auth/signUpWithGoogle";
 
 export default function GoogleBtn() {
     const { state, dispatch } = useAuth();

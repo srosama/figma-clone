@@ -1,5 +1,5 @@
 import { signOut } from "firebase/auth";
-import { auth } from "./firebase-config";
+import { auth } from "../firebase-config";
 
 //TODO: Delete the data from local storage
 

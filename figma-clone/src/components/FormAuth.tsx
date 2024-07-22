@@ -1,7 +1,7 @@
-import { FormAuthProps } from "../../types/AuthProps";
+import { FormAuthProps } from "../types/AuthProps";
 import GoogleBtn from "./GoogleBtn";
-import { AuthFormGeneric } from "./ui/AuthFormGeneric";
-import Or from "./ui/Or";
+import { AuthFormGeneric } from "./common/ui/AuthFormGeneric";
+import Or from "./common/ui/Or";
 export default function FormAuth({ loginOrRegister }: FormAuthProps) {
 
     return (

@@ -1,4 +1,4 @@
-import { fabric } from "fabric";
+import * as fabric from 'fabric';
 import { v4 as uuid4 } from "uuid";
 
 import {
@@ -9,10 +9,11 @@ import {
   CanvasObjectScaling,
   CanvasPathCreated,
   CanvasSelectionCreated,
-  RenderCanvas,
-} from "@/types/type";
-import { defaultNavElement } from "@/constants";
+} from "../types/IEditorProps";
 import { createSpecificShape } from "./shapes";
+import { IEvent } from "fabric/fabric-impl";
+import { RenderCanvas } from "../types/IEditorProps";
+import { defaultNavElement } from "../utils";
 
 // initialize fabric canvas
 export const initializeFabric = ({
@@ -236,7 +237,7 @@ export const handlePathCreated = ({
 export const handleCanvasObjectMoving = ({
   options,
 }: {
-  options: fabric.IEvent;
+  options: fabric.TEvent;
 }) => {
   // get target object which is moving
   const target = options.target as fabric.Object;
@@ -335,25 +336,28 @@ export const handleCanvasObjectScaling = ({
 };
 
 // render canvas objects coming from storage on canvas
+interface RenderCanvas {
+  fabricRef: React.MutableRefObject<fabric.Canvas | null>;
+  canvasObjects?: [string, fabric.ObjectOptions][];
+  activeObjectRef: React.MutableRefObject<{ objectId: string | null } | null>;
+}
+
+// render canvas objects coming from storage on canvas
 export const renderCanvas = ({
   fabricRef,
-  canvasObjects,
+  canvasObjects = [],
   activeObjectRef,
 }: RenderCanvas) => {
+  if (!fabricRef.current) {
+    console.error("Fabric canvas reference is null");
+    return;
+  }
+
   // clear canvas
-  fabricRef.current?.clear();
+  fabricRef.current.clear();
 
   // render all objects on canvas
-  Array.from(canvasObjects, ([objectId, objectData]) => {
-    /**
-     * enlivenObjects() is used to render objects on canvas.
-     * It takes two arguments:
-     * 1. objectData: object data to render on canvas
-     * 2. callback: callback function to execute after rendering objects
-     * on canvas
-     *
-     * enlivenObjects: http://fabricjs.com/docs/fabric.util.html#.enlivenObjectEnlivables
-     */
+  canvasObjects.forEach(([objectId, objectData]) => {
     fabric.util.enlivenObjects(
       [objectData],
       (enlivenedObjects: fabric.Object[]) => {
@@ -364,23 +368,15 @@ export const renderCanvas = ({
           }
 
           // add object to canvas
-          fabricRef.current?.add(enlivenedObj);
+          fabricRef.current.add(enlivenedObj);
         });
       },
-      /**
-       * specify namespace of the object for fabric to render it on canvas
-       * A namespace is a string that is used to identify the type of
-       * object.
-       *
-       * Fabric Namespace: http://fabricjs.com/docs/fabric.html
-       */
-      "fabric"
+      "fabric" // namespace
     );
   });
 
-  fabricRef.current?.renderAll();
+  fabricRef.current.renderAll();
 };
-
 // resize canvas dimensions on window resize
 export const handleResize = ({ canvas }: { canvas: fabric.Canvas | null }) => {
   const canvasElement = document.getElementById("canvas");
@@ -399,7 +395,7 @@ export const handleCanvasZoom = ({
   options,
   canvas,
 }: {
-  options: fabric.IEvent & { e: WheelEvent };
+  options: IEvent & { e: WheelEvent };
   canvas: fabric.Canvas;
 }) => {
   const delta = options.e?.deltaY;

@@ -1,12 +1,12 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import NotFound from '../pages/NotFound';
-import ProtectedRoutes from '../utils/ProtectedRoutes';
+import ProtectedRoutes from '../utils/routes/ProtectedRoutes';
 
 import Login from '../pages/Auth/Login';
 
 import Editor from '../pages/Editor/Editor';
 
-import PublicRoutesWithRules from '../utils/PublicRoutesWithRules';
+import PublicRoutesWithRules from '../utils/routes/PublicRoutesWithRules';
 import Dashboard from '../pages/Dashboard/Dashboard';
 import Register from '../pages/Auth/Register';
 import Verify from '../pages/Auth/Verify';

@@ -89,11 +89,11 @@ export const navElements = [
     value: "reset",
     name: "Reset",
   },
-  {
-    icon: "/assets/comments.svg",
-    value: "comments",
-    name: "Comments",
-  },
+  // {
+  //   icon: "/assets/comments.svg",
+  //   value: "comments",
+  //   name: "Comments",
+  // },
 ];
 
 export const defaultNavElement = {
@@ -221,9 +221,9 @@ export const shortcuts = [
     name: "Redo",
     shortcut: "⌘ + Y",
   },
-  {
-    key: "4",
-    name: "Reactions",
-    shortcut: "E",
-  },
 ];
+
+
+
+
+

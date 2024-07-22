@@ -1,4 +1,4 @@
-import FormAuth from "../../components/common/FormAuth";
+import FormAuth from "../../components/FormAuth";
 import NavbarAuth from "../../components/common/ui/NavbarAuth";
 
 

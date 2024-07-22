@@ -1,4 +1,4 @@
-import CursorSVG from "../../utils/CursorSVG";
+import CursorSVG from "../../utils/other/CursorSVG";
 
 type Props = {
     color: string;

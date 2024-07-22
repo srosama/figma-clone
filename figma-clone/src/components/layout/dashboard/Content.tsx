@@ -2,11 +2,10 @@
 import React from "react";
 import { ContentProp } from '../../../types/IDashBoardProp';
 import DesignFileBox from "../../common/ui/DesignFileBox";
-import DesignFileObjects from "../../common/DesignFileObjects";
+import DesignFileObjects from "../../DesignFileObjects";
 
 
 // !DON'T USE THIS FOR A REAL-WOLRD APP 
-
 const Content: React.FC<ContentProp> = ({ recentOrDraft }: ContentProp) => {
   return (
     <div className="w-full">

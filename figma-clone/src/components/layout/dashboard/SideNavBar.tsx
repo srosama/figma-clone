@@ -1,7 +1,7 @@
 import { useAuth } from "../../../contexts/AuthContext";
 import { SideNavBarProp } from "../../../types/IDashBoardProp";
 import { draftIcon,  notificationIcon, recentIcon, searchIcon } from "../../../utils";
-import { logOut } from "../../../utils/logOut";
+import { logOut } from "../../../utils/auth/logOut";
 import { Input } from "../../common/ui/input";
 import PlansBox from "../../common/ui/PlansBox";
 

@@ -15,8 +15,8 @@ import {
 } from "./form";
 import { Input } from "./input";
 import { useState } from "react";
-import { logInWithEmail } from "../../../utils/logInWithEmail";
-import { signUpWithEmail } from "../../../utils/signUpWithEmail";
+import { logInWithEmail } from "../../../utils/auth/logInWithEmail";
+import { signUpWithEmail } from "../../../utils/auth/signUpWithEmail";
 
 
 const btnSubmitStyle =

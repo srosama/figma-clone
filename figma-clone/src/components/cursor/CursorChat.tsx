@@ -1,5 +1,5 @@
-import { CursorChatProps, CursorMode } from "../../types/type";
-import CursorSVG from "../../utils/CursorSVG";
+import { CursorChatProps, CursorMode } from "../../types/IEditorProps";
+import CursorSVG from "../../utils/other/CursorSVG";
 
 export default function CursorChat({
   cursor, cursorState,

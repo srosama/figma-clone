@@ -1,5 +1,5 @@
 import { COLORS } from "../../utils";
-import { LiveCursorProps } from "../../types/type";
+import { LiveCursorProps } from "../../types/IEditorProps";
 import Cursor from "./Cursor.";
 
 const LiveCursors = ({ others }: LiveCursorProps) => {

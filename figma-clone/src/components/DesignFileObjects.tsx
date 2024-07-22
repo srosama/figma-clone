@@ -1,7 +1,7 @@
-import { DesignFileProp } from "../../types/IDashBoardProp";
-import { thumbnailBg } from "../../utils";
+import { DesignFileProp } from "../types/IDashBoardProp";
+import { thumbnailBg } from "../utils";
 
-export default function DesignFileObjects({ }: DesignFileProp) {
+export default function DesignFileObjects({ }) {
   return (
     <>
       <div className="m-5 p-6 pt-0 pl-2 grid grid-cols-4 gap-10">
