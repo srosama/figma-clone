@@ -57,7 +57,7 @@ To get started with the Real-Time Figma Clone, follow these steps:
    npm run dev
    ```
 4. **Open the Application:**
-   Open your browser and navigate to `http://localhost:3000`.
+   Open your browser and navigate to `http://localhost:5173`.
 
 
 ## <a name="tech-stack">⚙️ Tech Stack</a>
