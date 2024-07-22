@@ -335,29 +335,27 @@ export const handleCanvasObjectScaling = ({
   }));
 };
 
-// render canvas objects coming from storage on canvas
-interface RenderCanvas {
-  fabricRef: React.MutableRefObject<fabric.Canvas | null>;
-  canvasObjects?: [string, fabric.ObjectOptions][];
-  activeObjectRef: React.MutableRefObject<{ objectId: string | null } | null>;
-}
 
 // render canvas objects coming from storage on canvas
 export const renderCanvas = ({
   fabricRef,
-  canvasObjects = [],
+  canvasObjects,
   activeObjectRef,
 }: RenderCanvas) => {
-  if (!fabricRef.current) {
-    console.error("Fabric canvas reference is null");
+  // Log the canvasObjects to check if it is defined
+  console.log("canvasObjects:", canvasObjects);
+
+  // Ensure canvasObjects is defined before proceeding
+  if (!canvasObjects) {
+    console.error("canvasObjects is undefined or null");
     return;
   }
 
   // clear canvas
-  fabricRef.current.clear();
+  fabricRef.current?.clear();
 
   // render all objects on canvas
-  canvasObjects.forEach(([objectId, objectData]) => {
+  Array.from(canvasObjects, ([objectId,  ]) => {
     fabric.util.enlivenObjects(
       [objectData],
       (enlivenedObjects: fabric.Object[]) => {
@@ -368,15 +366,17 @@ export const renderCanvas = ({
           }
 
           // add object to canvas
-          fabricRef.current.add(enlivenedObj);
+          fabricRef.current?.add(enlivenedObj);
         });
       },
-      "fabric" // namespace
+      "fabric"
     );
   });
 
-  fabricRef.current.renderAll();
+  fabricRef.current?.renderAll();
 };
+
+
 // resize canvas dimensions on window resize
 export const handleResize = ({ canvas }: { canvas: fabric.Canvas | null }) => {
   const canvasElement = document.getElementById("canvas");

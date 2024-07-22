@@ -28,7 +28,8 @@ const ActiveUsers = () => {
         ))}
 
         {hasMoreUsers && (
-          <div className='z-10 -ml-3 flex h-9 w-9 items-center justify-center rounded-full bg-primary-black'>
+          <div className='z-10 -ml-3 flex h-9 w-9 items-center
+           justify-center rounded-full bg-red-500'>
             +{others.length - 2}
           </div>
         )}

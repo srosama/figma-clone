@@ -1,5 +1,3 @@
-
-
 import { fontFamilyOptions, fontSizeOptions, fontWeightOptions } from "../../utils";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../common/ui/select";
 
@@ -31,7 +29,7 @@ const Text = ({
   fontWeight,
   handleInputChange,
 }: TextProps) => (
-  <div className='flex flex-col gap-3 border-b border-primary-grey-200 px-5 py-3'>
+  <div className='flex flex-col gap-3 border-b border-borderColor px-5 py-3'>
     <h3 className='text-[10px] uppercase'>Text</h3>
 
     <div className='flex flex-col gap-3'>
@@ -75,8 +73,7 @@ const RenderSelect = ({
   fontSize,
   fontWeight,
   fontFamily,
-  handleInputChange,
-}: Props) => (
+  handleInputChange,}: Props) => (
   <Select
     key={config.property}
     onValueChange={(value) => handleInputChange(config.property, value)}

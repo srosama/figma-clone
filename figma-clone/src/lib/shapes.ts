@@ -66,7 +66,7 @@ export const createText = (pointer: fabric.Point, text: string) => {
 
 export const createSpecificShape = (
   shapeType: string,
-  pointer: fabric.Point
+  pointer: PointerEvent
 ) => {
   switch (shapeType) {
     case "rectangle":
@@ -118,7 +118,7 @@ export const handleImageUpload = ({
 
 export const createShape = (
   canvas: fabric.Canvas,
-  pointer: fabric.Point,
+  pointer: PointerEvent,
   shapeType: string
 ) => {
   if (shapeType === "freeform") {
@@ -126,11 +126,7 @@ export const createShape = (
     return null;
   }
 
-  const shape = createSpecificShape(shapeType, pointer);
-  if (shape) {
-    canvas.add(shape);
-  }
-  return shape;
+  return createSpecificShape(shapeType, pointer);
 };
 
 export const modifyShape = ({
@@ -142,8 +138,9 @@ export const modifyShape = ({
 }: ModifyShape) => {
   const selectedElement = canvas.getActiveObject();
 
-  if (!selectedElement || selectedElement.type === "activeSelection") return;
+  if (!selectedElement || selectedElement?.type === "activeSelection") return;
 
+  // if  property is width or height, set the scale of the selected element
   if (property === "width") {
     selectedElement.set("scaleX", 1);
     selectedElement.set("width", value);  
@@ -151,10 +148,11 @@ export const modifyShape = ({
     selectedElement.set("scaleY", 1);
     selectedElement.set("height", value);
   } else {
-    if (selectedElement[property as keyof fabric.Object] === value) return;
-    selectedElement.set(property as keyof fabric.Object, value);
+    if (selectedElement[property as keyof object] === value) return;
+    selectedElement.set(property as keyof object, value);
   }
 
+  // set selectedElement to activeObjectRef
   activeObjectRef.current = selectedElement;
 
   syncShapeInStorage(selectedElement);

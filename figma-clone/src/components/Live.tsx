@@ -1,19 +1,18 @@
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from "@radix-ui/react-context-menu";
 import LiveCursors from "./cursor/LiveCursor";
-import { useEventListener, useMyPresence, useOthers } from "@liveblocks/react/suspense";
+import { useMyPresence, useOthers } from "@liveblocks/react/suspense";
 import { shortcuts } from "../utils";
 import { useCallback, useEffect, useState } from "react";
 import { CursorMode, CursorState } from "../types/IEditorProps";
 import CursorChat from "./cursor/CursorChat";
-import useInterval from "../hooks/useInterval";
 
 type Props = {
   canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
-  undo?: () => void;
-  redo?: () => void;
+  undo: () => void;
+  redo: () => void;
 };
 
-export default function Live({ canvasRef }: Props) {
+export default function Live({ canvasRef, undo, redo }: Props) {
   const others = useOthers();
   const [{ cursor }, updateMyPresence] = useMyPresence() as any;
   const [cursorState, setCursorState] = useState<CursorState>({
@@ -121,69 +120,68 @@ export default function Live({ canvasRef }: Props) {
         });
         break;
 
-      // case "Undo":
-      //   undo();
-      //   break;
+      case "Undo":
+        undo();
+        break;
 
-      // case "Redo":
-      //   redo();
-      //   break;
+      case "Redo":
+        redo();
+        break;
 
       default:
         break;
     }
   }, []);
 
-
   return (
-    // Undo + Redo 
     <>
-      {/* <ContextMenu>
+      <ContextMenu>
         <ContextMenuTrigger
-       
-        </ContextMenuTrigger> */}
+          className="relative flex h-full w-full flex-1 items-center justify-center"
+          id="canvas"
+          style={{
+            cursor: cursorState.mode === CursorMode.Chat ? "none" : "auto",
+          }}
+          onPointerMove={handlePointerMove}
+          onPointerLeave={handlePointerLeave}
+          onPointerDown={handlePointerDown}
+          onPointerUp={handlePointerUp}
+        >
+          <canvas ref={canvasRef} />
+
+          {/* If cursor is in chat mode, show the chat cursor */}
+          {cursor && (
+            <CursorChat
+              cursor={cursor}
+              cursorState={cursorState}
+              setCursorState={setCursorState}
+              updateMyPresence={updateMyPresence}
+            />
+          )}
 
 
-      <div
-        className="relative flex h-screen w-screen flex-1"
-        id="canvas"
-        // style={{
-        //   cursor: cursorState.mode === CursorMode.Chat ? "none" : "auto",
-        // }}
-        onPointerMove={handlePointerMove}
-        onPointerLeave={handlePointerLeave}
-        onPointerDown={handlePointerDown}
-        onPointerUp={handlePointerUp}
-      >
-        <LiveCursors others={others} />
 
-        <canvas ref={canvasRef} />
+          {/* Show the live cursors of other users */}
+          <LiveCursors others={others} />
 
-        {cursor && (
-          <CursorChat
-            cursor={cursor}
-            cursorState={cursorState}
-            setCursorState={setCursorState}
-            updateMyPresence={updateMyPresence}
-          />)}
+          {/* Show the comments */}
+          {/* <Comments /> */}
+        </ContextMenuTrigger>
 
-      </div>
-
-
-      {/* 
-        <ContextMenuContent className="right-menu-content">
+        <ContextMenuContent className="right-menu-content bg-white border border-gray-200 rounded-md shadow-lg p-2">
           {shortcuts.map((item) => (
             <ContextMenuItem
               key={item.key}
-              className="right-menu-item"
-            onClick={() => handleContextMenuClick(item.name)}
+              className="right-menu-item flex justify-between items-center px-4 py-2 hover:bg-gray-100 cursor-pointer"
+              onClick={() => handleContextMenuClick(item.name)}
             >
-              <p>{item.name}</p>
-              <p className="flex text-xs text-primary-grey-300">{item.shortcut}</p>
+              <p className="text-sm font-medium">{item.name}</p>
+              <p className="text-xs text-gray-500">{item.shortcut}</p>
             </ContextMenuItem>
           ))}
         </ContextMenuContent>
-      </ContextMenu> */}
+
+      </ContextMenu>
     </>
   );
 }

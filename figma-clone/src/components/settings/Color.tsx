@@ -15,7 +15,7 @@ const Color = ({
   attributeType,
   handleInputChange,
 }: Props) => (
-  <div className='flex flex-col gap-3 border-b border-primary-grey-200 p-5'>
+  <div className='flex flex-col gap-3 border-b border-borderColor p-5'>
     <h3 className='text-[10px] uppercase'>{placeholder}</h3>
     <div
       className='flex items-center gap-2 border border-primary-grey-200'
