@@ -44,13 +44,6 @@
   <br>
 </details
 
-
-
-## Introduction
-
-Welcome to the Real-Time Figma Clone! This collaborative web application for interface design (UI) utilizes cutting-edge web technologies to provide a seamless, real-time collaborative design experience.
-## Table of Contents
-
 - [Prerequisites](#prerequisites)
 - [Get Started](#get-started)
 - [Tech Stack](#tech-stack)
