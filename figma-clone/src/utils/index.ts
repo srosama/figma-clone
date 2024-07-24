@@ -9,7 +9,7 @@ import draft from "/assets/Images/draft.svg";
 import upload from "/assets/Images/upload.svg";
 import global from "/assets/Images/global.png";
 import logout from "/assets/Images/logout.png";
-import  pen from "/assets/Images/pen.png";
+import pen from "/assets/Images/pen.png";
 import thumbnail from "/assets/Images/thumbnail.png";
 import FigmaLogoOutline from "/assets/Images/FigmaLogoOutline.svg";
 
@@ -19,13 +19,13 @@ export const verifyImg = verifyHeroImg;
 export const outlookIcon = outlook;
 export const notificationIcon = notification;
 export const searchIcon = search;
-export const recentIcon = recent; 
+export const recentIcon = recent;
 export const draftIcon = draft;
 export const uploadIcon = upload;
 export const globalIcon = global;
 export const logoutIcon = logout;
 export const penIcon = pen;
-export const thumbnailBg =  thumbnail;
+export const thumbnailBg = thumbnail;
 export const FigmaLogoOutlineIcon = FigmaLogoOutline;
 
 export const COLORS = ["#DC2626", "#D97706", "#059669", "#7C3AED", "#DB2777"];

@@ -10,12 +10,13 @@ export default function Navbar({ activeElement, handleActiveElement, imageInputR
         return (typeof value === 'string' && activeElement && activeElement.value === value) ||
             (Array.isArray(value) && value.some((val) => val?.value === activeElement?.value));
     };
+    
     //! fix + add 
     // const [isRest, setIsRest] = useState(false)
 
     return (
         <nav className="flex items-center justify-between gap-4 w-full
-        border-b-[0.5px] border-borderColor
+        border-b-[0.5px] border-borderColor z-2
         bg-backgroundDash text-white">
             <div className="flex flex-row">
                 <div className="p-3 pl-2  flex items-center 
@@ -33,7 +34,7 @@ export default function Navbar({ activeElement, handleActiveElement, imageInputR
                                 }
                             }}
                             className={`
-                                group p-3 pb-3 pl-2 
+                                z-10                                group p-3 pb-3 pl-2 
                                 flex justify-center items-center
                                 cursor-pointer
                                 border-r-[0.5px] border-borderColor

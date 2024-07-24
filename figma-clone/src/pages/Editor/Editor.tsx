@@ -1,19 +1,22 @@
 import { useEffect, useRef, useState } from "react";
-import Navbar from "../../components/layout/editor/Navbar"
+import Navbar from "../../components/layout/editor/Navbar";
 import { ActiveElement, Attributes } from "../../types/IEditorProps";
-import LeftSidebar from "../../components/layout/editor/LeftSidebar";
-import RightSidebar from "../../components/layout/editor/RightSidebar";
 import Live from "../../components/Live";
-import { handleCanvaseMouseMove, handleCanvasMouseDown, handleCanvasMouseUp, handleCanvasObjectModified, handleCanvasObjectMoving, handleCanvasObjectScaling, handleCanvasSelectionCreated, handleCanvasZoom, handlePathCreated, handleResize, initializeFabric, renderCanvas } from "../../lib/canvas";
 import { Canvas, FabricObject } from "fabric";
 import { useMutation, useRedo, useStorage, useUndo } from "@liveblocks/react/suspense";
 import { handleDelete, handleKeyDown } from "../../lib/key-events";
 import { defaultNavElement } from "../../utils";
 import { handleImageUpload } from "../../lib/shapes";
+import {
+  handleCanvaseMouseMove, handleCanvasMouseDown,
+  handleCanvasMouseUp, handleCanvasObjectModified, handleCanvasObjectScaling, handleCanvasSelectionCreated, handleCanvasZoom, handlePathCreated, handleResize, initializeFabric,
+  renderCanvas
+} from "../../lib/canvas";
 
 export default function Editor() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fabricRef = useRef<Canvas | null>(null);
+
   const isDrawing = useRef(false);
   const shapeRef = useRef<FabricObject | null>(null);
   const selectedShapeRef = useRef<string | null>(null);
@@ -23,7 +26,6 @@ export default function Editor() {
   const imageInputRef = useRef<HTMLInputElement>(null);
   const undo = useUndo();
   const redo = useRedo();
-
 
   const syncShapeInStorage = useMutation(({ storage }, object) => {
     if (!object) return;
@@ -44,6 +46,7 @@ export default function Editor() {
     fill: "#aabbcc",
     stroke: "#aabbcc",
   });
+
   const [activeElement, setActiveElement] = useState<ActiveElement>({
     name: "",
     value: "",
@@ -93,12 +96,12 @@ export default function Editor() {
   }, []);
 
 
-  useEffect(() => {
-    const canvas = initializeFabric({
-      canvasRef,
-      fabricRef,
-    });
 
+  const initializeAndRenderCanvas = () => {
+    const canvas = initializeFabric({ canvasRef, fabricRef });
+
+
+    //! Controllers and objects add + events 
     const handleMouseDown = (options: any) => {
       handleCanvasMouseDown({
         options,
@@ -132,6 +135,8 @@ export default function Editor() {
       });
     };
 
+
+    //! Events 
     const handlePathCreatedEvent = (options: any) => {
       handlePathCreated({
         options,
@@ -146,49 +151,125 @@ export default function Editor() {
       });
     };
 
-    const handleObjectMovingEvent = (options: any) => {
-      handleCanvasObjectMoving({
-        options,
-      });
-    };
+    // const handleObjectMovingEvent = (options: any) => {
 
-    const handleSelectionCreatedEvent = (options: any) => {
-      handleCanvasSelectionCreated({
-        options,
-        isEditingRef,
-        setElementAttributes,
-      });
-    };
+    //   handleCanvasObjectMoving({
+    //     options,
+    //   });
+    // };
 
-    const handleObjectScalingEvent = (options: any) => {
-      handleCanvasObjectScaling({
-        options,
-        setElementAttributes,
-      });
-    };
+    //   const handleSelectionCreatedEvent = (options: any) => {
+    //     handleCanvasSelectionCreated({
+    //       options,
+    //       isEditingRef,
+    //       setElementAttributes,
+    //     });
+    //   };
 
-    const handleMouseWheel = (options: any) => {
-      handleCanvasZoom({
-        options,
-        canvas,
-      });
-    };
+    //   const handleObjectScalingEvent = (options: any) => {
+    //     handleCanvasObjectScaling({
+    //       options,
+    //       setElementAttributes,
+    //     });
+    //   };
 
+    //   const handleMouseWheel = (options: any) => {
+    //     handleCanvasZoom({
+    //       options,
+    //       canvas,
+    //     });
+    //   };
+
+
+    // canvas.on("object:moving", handleObjectMovingEvent);
     canvas.on("mouse:down", handleMouseDown);
     canvas.on("mouse:move", handleMouseMove);
     canvas.on("mouse:up", handleMouseUp);
     canvas.on("path:created", handlePathCreatedEvent);
     canvas.on("object:modified", handleObjectModifiedEvent);
-    canvas.on("object:moving", handleObjectMovingEvent);
-    canvas.on("selection:created", handleSelectionCreatedEvent);
-    canvas.on("object:scaling", handleObjectScalingEvent);
-    canvas.on("mouse:wheel", handleMouseWheel);
 
-    const handleResizeEvent = () => {
-      handleResize({ canvas: fabricRef.current });
+    canvas.on("selection:created", (options: any) => {
+      handleCanvasSelectionCreated({
+        options,
+        isEditingRef,
+        setElementAttributes,
+      });
+    });
+
+    canvas.on("object:scaling", (options: any) => {
+      handleCanvasObjectScaling({
+        options,
+        setElementAttributes,
+      });
+    });
+
+    canvas.on("mouse:wheel", (options: any) => {
+      handleCanvasZoom({
+        options,
+        canvas,
+      });
+    });
+
+    //   const enableCanvasPanning = (canvas: fabric.Canvas) => {
+    //     let isPanning = false;
+    //     let lastPosX = 0;
+    //     let lastPosY = 0;
+
+    //     canvas.on("mouse:down", (event: React.PointerEvent) => {
+    //       if (event.e.altKey) {
+    //         isPanning = true;
+    //         lastPosX = event.e.clientX;
+    //         lastPosY = event.e.clientY;
+    //       }
+    //     });
+
+    //     canvas.on("mouse:move", (event: React.PointerEvent) => {
+    //       if (isPanning) {
+    //         const e = event.e;
+    //         const vpt = canvas.viewportTransform;
+    //         if (vpt) {
+    //           vpt[4] += e.clientX - lastPosX;
+    //           vpt[5] += e.clientY - lastPosY;
+    //           canvas.requestRenderAll();
+    //           lastPosX = e.clientX;
+    //           lastPosY = e.clientY;
+    //         }
+    //       }
+    //     });
+
+    //     canvas.on("mouse:up", () => {
+    //       isPanning = false;
+    //     });
+    //   };
+
+    //   enableCanvasPanning(canvas);
+    //   canvas.on("mouse:wheel", (options) => handleCanvasZoom({ options, canvas }));
+
+    //   const handleResizeEvent = () => {
+    //     handleResize({ canvas: fabricRef.current });
+    //   };
+
+    //   const handleKeyDownEvent = (e: any) => {
+    //     handleKeyDown({
+    //       e,
+    //       canvas: fabricRef.current,
+    //       undo,
+    //       redo,
+    //       syncShapeInStorage,
+    //       deleteShapeFromStorage,
+    //     });
+    //   };
+
+    //   window.addEventListener("resize", handleResizeEvent);
+    //   window.addEventListener("keydown", handleKeyDownEvent);
+
+    const resizeHandler = () => {
+      handleResize({
+        canvas: fabricRef.current,
+      });
     };
 
-    const handleKeyDownEvent = (e: any) => {
+    const keyDownHandler = (e: KeyboardEvent) => {
       handleKeyDown({
         e,
         canvas: fabricRef.current,
@@ -199,30 +280,37 @@ export default function Editor() {
       });
     };
 
-    window.addEventListener("resize", handleResizeEvent);
-    window.addEventListener("keydown", handleKeyDownEvent);
 
     return () => {
       canvas.dispose();
-      window.removeEventListener("resize", handleResizeEvent);
-      window.removeEventListener("keydown", handleKeyDownEvent);
+      window.removeEventListener("resize", resizeHandler);
+      window.removeEventListener("keydown", keyDownHandler);
     };
-  }, [canvasRef]);
+  };
+
 
 
   useEffect(() => {
-    renderCanvas({
-      fabricRef,
-      canvasObjects,
-      activeObjectRef,
-    });
-  }, [canvasObjects]);
+    const disposeCanvas = initializeAndRenderCanvas();
+    return () => {
+      disposeCanvas();
+    };
+  }, [canvasRef]);
 
   useEffect(() => {
     if (canvasRef.current) {
       canvasRef.current.style.backgroundColor = "#1E1E1E";
     }
-  }, []);
+
+    renderCanvas({
+      fabricRef,
+      canvasObjects,
+      activeObjectRef,
+    });
+
+  }, [canvasObjects]);
+
+
 
 
 
@@ -245,18 +333,19 @@ export default function Editor() {
         />
 
         <section className="flex h-full flex-row">
-          <LeftSidebar />
-          <Live canvasRef={canvasRef} undo={undo} redo={redo}/>
-          <RightSidebar
+          {/* <LeftSidebar allShapes={Array.from(canvasObjects)} /> */}
+          <Live canvasRef={canvasRef} undo={undo} redo={redo} />
+          {/* <RightSidebar
             elementAttributes={elementAttributes}
             setElementAttributes={setElementAttributes}
             fabricRef={fabricRef}
             activeObjectRef={activeObjectRef}
             isEditingRef={isEditingRef}
             syncShapeInStorage={syncShapeInStorage}
-          />
+          /> */}
         </section>
       </main>
     </>
-  )
+  );
 }
+

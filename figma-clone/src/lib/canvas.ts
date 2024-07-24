@@ -1,6 +1,5 @@
-import * as fabric from 'fabric';
+import * as fabric from "fabric";
 import { v4 as uuid4 } from "uuid";
-
 import {
   CanvasMouseDown,
   CanvasMouseMove,
@@ -9,58 +8,53 @@ import {
   CanvasObjectScaling,
   CanvasPathCreated,
   CanvasSelectionCreated,
+  RenderCanvas
+  ,
 } from "../types/IEditorProps";
 import { createSpecificShape } from "./shapes";
-import { IEvent } from "fabric/fabric-impl";
-import { RenderCanvas } from "../types/IEditorProps";
 import { defaultNavElement } from "../utils";
+import { IEvent } from "fabric/fabric-impl";
+import { CodeIcon } from "@radix-ui/react-icons";
+import { escape } from "querystring";
 
-// initialize fabric canvas
-export const initializeFabric = ({
-  fabricRef,
-  canvasRef,
-}: {
+
+
+type initializeFabricProps = {
   fabricRef: React.MutableRefObject<fabric.Canvas | null>;
   canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
-}) => {
-  // get canvas element
-  const canvasElement = document.getElementById("canvas");
+}
+
+// initialize fabric canvas
+export const initializeFabric = ({ fabricRef, canvasRef }: initializeFabricProps) => {
+  const mainCanvas = document.getElementById("canvas");
 
   // create fabric canvas
   const canvas = new fabric.Canvas(canvasRef.current, {
-    width: canvasElement?.clientWidth,
-    height: canvasElement?.clientHeight,
+    width: mainCanvas?.clientWidth,
+    height: mainCanvas?.clientHeight,
   });
 
-  // set canvas reference to fabricRef so we can use it later anywhere outside canvas listener
-  fabricRef.current = canvas;
+  //! set canvas reference to fabricRef so we can use it later anywhere 
+  //! outside canvas listener
 
+  fabricRef.current = canvas;
   return canvas;
 };
 
 // instantiate creation of custom fabric object/shape and add it to canvas
-export const handleCanvasMouseDown = ({
-  options,
-  canvas,
-  selectedShapeRef,
-  isDrawing,
-  shapeRef,
-}: CanvasMouseDown) => {
-  // get pointer coordinates
+export const handleCanvasMouseDown = (
+  { options
+    , canvas
+    , selectedShapeRef
+    , isDrawing,
+    shapeRef,
+  }: CanvasMouseDown) => {
+  // get the pointer that inisde the canvas
   const pointer = canvas.getPointer(options.e);
-
-  /**
-   * get target object i.e., the object that is clicked
-   * findtarget() returns the object that is clicked
-   *
-   * findTarget: http://fabricjs.com/docs/fabric.Canvas.html#findTarget
-   */
   const target = canvas.findTarget(options.e, false);
-
-  // set canvas drawing mode to false
   canvas.isDrawingMode = false;
 
-  // if selected shape is freeform, set drawing mode to true and return
+
   if (selectedShapeRef.current === "freeform") {
     isDrawing.current = true;
     canvas.isDrawingMode = true;
@@ -68,27 +62,21 @@ export const handleCanvasMouseDown = ({
     return;
   }
 
-  canvas.isDrawingMode = false;
-
   // if target is the selected shape or active selection, set isDrawing to false
   if (
-    target &&
-    (target.type === selectedShapeRef.current ||
+    target && (target.type === selectedShapeRef.current ||
       target.type === "activeSelection")
   ) {
+
     isDrawing.current = false;
 
     // set active object to target
     canvas.setActiveObject(target);
-
-    /**
-     * setCoords() is used to update the controls of the object
-     * setCoords: http://fabricjs.com/docs/fabric.Object.html#setCoords
-     */
     target.setCoords();
-  } else {
-    isDrawing.current = true;
+  }
 
+  else {
+    isDrawing.current = true;
     // create custom fabric object/shape and set it to shapeRef
     shapeRef.current = createSpecificShape(
       selectedShapeRef.current,
@@ -97,7 +85,7 @@ export const handleCanvasMouseDown = ({
 
     // if shapeRef is not null, add it to canvas
     if (shapeRef.current) {
-      // add: http://fabricjs.com/docs/fabric.Canvas.html#add
+      console.log("checkk this > ", shapeRef.current)
       canvas.add(shapeRef.current);
     }
   }
@@ -200,7 +188,7 @@ export const handleCanvasMouseUp = ({
   }
 };
 
-// update shape in storage when object is modified
+//! update shape in storage when object is modified fix this
 export const handleCanvasObjectModified = ({
   options,
   syncShapeInStorage,
@@ -208,12 +196,38 @@ export const handleCanvasObjectModified = ({
   const target = options.target;
   if (!target) return;
 
-  if (target?.type == "activeSelection") {
-    // fix this
-  } else {
-    syncShapeInStorage(target);
-  }
+  // Extract the object's ID and relevant properties
+  const objectId = target.data?.id; // Assuming you store an ID in the data property of the object
+  if (!objectId) return;
+
+
+  // Sync the updated properties to the storage
+  syncShapeInStorage(target);
 };
+
+
+// export const handleCanvasObjectModified = ({
+//   options,
+//   syncShapeInStorage,
+// }: CanvasObjectModified) => {
+//   const target = options.target;
+//   if (!target) return;
+
+//   if (target.type === "activeSelection") {
+//     // If the target is an active selection, loop through all objects in the selection
+//     const activeSelection = target as fabric.ActiveSelection;
+//     activeSelection.forEachObject((object) => {
+//       syncShapeInStorage(object);
+//     });
+//   } else {
+//     // Otherwise, update the single object
+//     const activeSelection = target as fabric.ActiveSelection;
+
+//     syncShapeInStorage(target);
+//   }
+// };
+
+
 
 // update shape in storage when path is created when in freeform mode
 export const handlePathCreated = ({
@@ -233,43 +247,44 @@ export const handlePathCreated = ({
   syncShapeInStorage(path);
 };
 
+
 // check how object is moving on canvas and restrict it to canvas boundaries
-export const handleCanvasObjectMoving = ({
-  options,
-}: {
-  options: fabric.TEvent;
-}) => {
-  // get target object which is moving
-  const target = options.target as fabric.Object;
+// export const handleCanvasObjectMoving = ({
+//   options,
+// }: {
+//   options: IEvent;
+// }) => {
+//   // get target object which is moving
+//   const target = options.target as fabric.FabricObject;
 
-  // target.canvas is the canvas on which the object is moving
-  const canvas = target.canvas as fabric.Canvas;
+//   // target.canvas is the canvas on which the object is moving
+//   const canvas = target.canvas as fabric.Canvas;
 
-  // set coordinates of target object
-  target.setCoords();
+//   // set coordinates of target object
+//   target.setCoords();
 
-  // restrict object to canvas boundaries (horizontal)
-  if (target && target.left) {
-    target.left = Math.max(
-      0,
-      Math.min(
-        target.left,
-        (canvas.width || 0) - (target.getScaledWidth() || target.width || 0)
-      )
-    );
-  }
+//   // // restrict object to canvas boundaries (horizontal)
+//   // if (target && target.left) {
+//   //   target.left = Math.max(
+//   //     0,
+//   //     Math.min(
+//   //       target.left,
+//   //       (canvas.width || 0) - (target.getScaledWidth() || target.width || 0)
+//   //     )
+//   //   );
+//   // }
 
-  // restrict object to canvas boundaries (vertical)
-  if (target && target.top) {
-    target.top = Math.max(
-      0,
-      Math.min(
-        target.top,
-        (canvas.height || 0) - (target.getScaledHeight() || target.height || 0)
-      )
-    );
-  }
-};
+//   // // restrict object to canvas boundaries (vertical)
+//   // if (target && target.top) {
+//   //   target.top = Math.max(
+//   //     0,
+//   //     Math.min(
+//   //       target.top,
+//   //       (canvas.height || 0) - (target.getScaledHeight() || target.height || 0)
+//   //     )
+//   //   );
+//   // }
+// };
 
 // set element attributes when element is selected
 export const handleCanvasSelectionCreated = ({
@@ -284,7 +299,7 @@ export const handleCanvasSelectionCreated = ({
   if (!options?.selected) return;
 
   // get the selected element
-  const selectedElement = options?.selected[0] as fabric.Object;
+  const selectedElement = options?.selected[0] as fabric.FabricObject;
 
   // if only one element is selected, set element attributes
   if (selectedElement && options.selected.length === 1) {
@@ -336,53 +351,55 @@ export const handleCanvasObjectScaling = ({
 };
 
 
-// render canvas objects coming from storage on canvas
-export const renderCanvas = ({
+export const renderCanvas = async ({
   fabricRef,
   canvasObjects,
   activeObjectRef,
-}: RenderCanvas) => {
-  // Log the canvasObjects to check if it is defined
-  console.log("canvasObjects:", canvasObjects);
+}: RenderCanvas): Promise<void> => {
+  if (!fabricRef.current) return;
 
-  // Ensure canvasObjects is defined before proceeding
-  if (!canvasObjects) {
-    console.error("canvasObjects is undefined or null");
-    return;
+  try {
+    Array.from(canvasObjects, ([objectId, objectData])  => {
+      const enlivenedObjects = await fabric.util.enlivenObjects<fabric.FabricObject>(objectData);
+
+      enlivenedObjects.forEach((obj) => {
+        if (activeObjectRef.current?.objectId === objectId) {
+          fabricRef.current?.setActiveObject(obj);
+        }
+        console.log("sdads", obj)
+        fabricRef.current?.add(obj);
+      });
+
+    })
+    fabricRef.current.renderAll();
+
+
+  } catch (error) {
+    console.error('Failed to enliven objects:', error);
   }
-
-  // clear canvas
-  fabricRef.current?.clear();
-
-  // render all objects on canvas
-  Array.from(canvasObjects, ([objectId,  ]) => {
-    fabric.util.enlivenObjects(
-      [objectData],
-      (enlivenedObjects: fabric.Object[]) => {
-        enlivenedObjects.forEach((enlivenedObj) => {
-          // if element is active, keep it in active state so that it can be edited further
-          if (activeObjectRef.current?.objectId === objectId) {
-            fabricRef.current?.setActiveObject(enlivenedObj);
-          }
-
-          // add object to canvas
-          fabricRef.current?.add(enlivenedObj);
-        });
-      },
-      "fabric"
-    );
-  });
-
-  fabricRef.current?.renderAll();
 };
 
 
-// resize canvas dimensions on window resize
+// fabric.util.enlivenObjects(
+//   [objectData],
+//   (enlivenedObjects: fabric.FabricObject[]) => {
+//     enlivenedObjects.forEach((enlivenedObj) => {
+//       if (activeObjectRef.current?.objectId === objectId) {
+//         fabricRef.current?.setActiveObject(enlivenedObj);
+//       }
+
+//       // add object to canvas
+//       fabricRef.current?.add(enlivenedObj);
+//     });
+//   },
+//   "fabric"
+// );
+
+
+// Resize canvas dimensions on window resize
 export const handleResize = ({ canvas }: { canvas: fabric.Canvas | null }) => {
   const canvasElement = document.getElementById("canvas");
-  if (!canvasElement) return;
-
-  if (!canvas) return;
+  if (!canvasElement || !canvas) return;
 
   canvas.setDimensions({
     width: canvasElement.clientWidth,
@@ -390,7 +407,7 @@ export const handleResize = ({ canvas }: { canvas: fabric.Canvas | null }) => {
   });
 };
 
-// zoom canvas on mouse scroll
+// Zoom canvas on mouse scroll
 export const handleCanvasZoom = ({
   options,
   canvas,
@@ -398,21 +415,30 @@ export const handleCanvasZoom = ({
   options: IEvent & { e: WheelEvent };
   canvas: fabric.Canvas;
 }) => {
-  const delta = options.e?.deltaY;
+  const delta = options.e.deltaY;
   let zoom = canvas.getZoom();
 
-  // allow zooming to min 20% and max 100%
+  // Allow zooming to min 20% and max 100%
   const minZoom = 0.2;
   const maxZoom = 1;
   const zoomStep = 0.001;
 
-  // calculate zoom based on mouse scroll wheel with min and max zoom
+  // Calculate zoom based on mouse scroll wheel with min and max zoom
   zoom = Math.min(Math.max(minZoom, zoom + delta * zoomStep), maxZoom);
 
-  // set zoom to canvas
+  // Set zoom to canvas
   // zoomToPoint: http://fabricjs.com/docs/fabric.Canvas.html#zoomToPoint
   canvas.zoomToPoint({ x: options.e.offsetX, y: options.e.offsetY }, zoom);
 
   options.e.preventDefault();
   options.e.stopPropagation();
 };
+
+
+
+
+
+
+
+
+

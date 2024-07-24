@@ -6,7 +6,6 @@ import Color from "../../settings/Color";
 import Export from "../../settings/Export";
 import { modifyShape } from "../../../lib/shapes";
 import { Canvas } from "fabric";
-import Or from "../../common/ui/Or";
 
 export default function RightSidebar({
   elementAttributes,
@@ -17,7 +16,7 @@ export default function RightSidebar({
   syncShapeInStorage }: RightSidebarProps) {
   const colorInputRef = useRef(null);
   const strokeInputRef = useRef(null);
-    
+
   //! Rest to the canvas attributes if the user is not editing
   //! Change the attributes for every element while editing and the element is active 
 
@@ -38,9 +37,10 @@ export default function RightSidebar({
   const memoizedContent = useMemo(
     () => (
       <section className="flex flex-col 
-      border-t w-64 bg-backgroundDash text-white 
-      min-w-[227px] sticky right-0 h-full 
-      max-sm:hidden select-none border-borderColor">
+ bg-backgroundDash text-white min-w-[227px] 
+ sticky top-0 right-0 h-full max-sm:hidden select-none
+  border-borderColor sm:min-w-[200px] md:min-w-[250px] lg:min-w-[300px]">
+
         <h3 className=" px-5 pt-4 pb-4 text-xs uppercase border-b border-borderColor">Design</h3>
 
         <Dimensions
@@ -55,7 +55,7 @@ export default function RightSidebar({
           fontSize={elementAttributes.fontSize}
           fontWeight={elementAttributes.fontWeight}
           handleInputChange={handleInputChange}
- 
+
         />
 
         <Color
@@ -78,7 +78,7 @@ export default function RightSidebar({
       </section>
     ),
     [elementAttributes]
-  ); 
+  );
 
   return memoizedContent;
 };

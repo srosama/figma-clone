@@ -172,6 +172,7 @@ export type RenderCanvas = {
   fabricRef: React.MutableRefObject<Canvas | null>;
   canvasObjects: any;
   activeObjectRef: any;
+  canvas?: Canvas,
 };
 
 export type CursorChatProps = {

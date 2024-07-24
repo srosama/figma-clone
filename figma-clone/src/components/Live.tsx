@@ -147,7 +147,7 @@ export default function Live({ canvasRef, undo, redo }: Props) {
           onPointerDown={handlePointerDown}
           onPointerUp={handlePointerUp}
         >
-          <canvas ref={canvasRef} />
+          <canvas  ref={canvasRef}  className="z-0"/>
 
           {/* If cursor is in chat mode, show the chat cursor */}
           {cursor && (
@@ -185,3 +185,4 @@ export default function Live({ canvasRef, undo, redo }: Props) {
     </>
   );
 }
+
