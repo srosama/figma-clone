@@ -8,6 +8,48 @@
   </div>
 </div>
 
+# Project Screenshots
+
+## Toggle for Screenshots
+
+<details>
+  <summary>Auth</summary>
+  <img src="https://github.com/user-attachments/assets/18a5514f-ac24-45ed-9aa6-a1e7c9d42406"/>
+  <img src="https://github.com/user-attachments/assets/eb7bfd32-a99d-4578-839d-878b6d7087f5"/>
+  <img src="https://github.com/user-attachments/assets/392815b2-c2c6-4e23-9876-e22e72b98180" alt="typescript" />
+  <br>
+  <p>Description of the Auth screen.</p>
+</details>
+
+
+<details>
+  <summary>Dashboard</summary>
+  <img src="https://github.com/user-attachments/assets/257014bc-659b-4f63-87cb-f12c114ee347"/>
+  <img src="https://github.com/user-attachments/assets/8a17b153-70d2-4023-babb-5798e41428ad"/>
+
+  <br>
+</details>
+
+<details>
+  <summary>Editor</summary>
+  
+  <img src="https://github.com/user-attachments/assets/09a3d1c7-5ba5-45ed-b92e-d223445476c7" alt="Image 1"/>
+  
+  <img src="https://github.com/user-attachments/assets/7d758124-d32c-436b-9d06-f1cca8f41777" alt="Screenshot from 2024-07-24 20-22-15"/>
+  
+  <img src="https://github.com/user-attachments/assets/a94d3278-d4c1-4ef9-90b3-359690f979c4" alt="Screenshot from 2024-07-24 20-22-04"/>
+  
+  <img src="https://github.com/user-attachments/assets/1af7ae3c-2752-40f2-95e2-9fecd2af2968" alt="Screenshot from 2024-07-24 20-24-04"/>
+  
+  <video controls>
+    <source src="[https://github.com/user-attachments/assets/8421b712-4f5b-4d46-8c64-f4f87b5381ad](https://github.com/user-attachments/assets/8421b712-4f5b-4d46-8c64-f4f87b5381ad)" type="video/webm">
+    Your browser does not support the video tag.
+  </video>
+  <br>
+</details
+
+
+
 ## Introduction
 
 Welcome to the Real-Time Figma Clone! This collaborative web application for interface design (UI) utilizes cutting-edge web technologies to provide a seamless, real-time collaborative design experience.
