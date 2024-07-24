@@ -9,9 +9,6 @@
 </div>
 
 # Project Screenshots
-
-## Toggle for Screenshots
-
 <details>
   <summary>Auth</summary>
   <img src="https://github.com/user-attachments/assets/18a5514f-ac24-45ed-9aa6-a1e7c9d42406"/>
