@@ -4,18 +4,21 @@ import { Label } from "../common/ui/label";
 const dimensionsOptions = [
   { label: "W", property: "width" },
   { label: "H", property: "height" },
+  { label: "rx", property: "rx" },
+  { label: "ry", property: "ry" },
 ];
 
 type Props = {
   width: string;
   height: string;
+  rx?: string;
+  ry?: string;
   isEditingRef: React.MutableRefObject<boolean>;
   handleInputChange: (property: string, value: string) => void;
 };
 
-const Dimensions = ({ width, height, isEditingRef, handleInputChange }: Props) => (
+const Dimensions = ({ ry, rx, width, height, isEditingRef, handleInputChange }: Props) => (
   <section className='flex flex-col border-b border-borderColor'>
-
     <h3 className="pt-4 px-5 text-sm">Position</h3>
     <div className='flex flex-col gap-4 px-6 py-3'>
       {dimensionsOptions.map((item) => (
@@ -29,13 +32,18 @@ const Dimensions = ({ width, height, isEditingRef, handleInputChange }: Props) =
           <Input
             type='number'
             id={item.property}
-            placeholder='100'
-            value={item.property === "width" ? width : height}
+            placeholder={item.property === 'width' || item.property === 'height' ? "100" : "0"}
+            value={
+              item.property === 'width' ? width :
+              item.property === 'height' ? height :
+              item.property === 'rx' ? rx || '' :
+              item.property === 'ry' ? ry || '' : ''
+            }
             className='input-ring'
             min={10}
             onChange={(e) => handleInputChange(item.property, e.target.value)}
-            onBlur={(e) => {
-            isEditingRef.current = false
+            onBlur={() => {
+              isEditingRef.current = false;
             }}
           />
         </div>

@@ -42,11 +42,13 @@ export default function Editor() {
   const [elementAttributes, setElementAttributes] = useState<Attributes>({
     width: "",
     height: "",
+    rx: "",
+    ry: "",
     fontSize: "",
     fontFamily: "",
     fontWeight: "",
-    fill: "#aabbcc",
-    stroke: "#aabbcc",
+    fill: "#fff",
+    stroke: "#fff",
   });
 
   const [activeElement, setActiveElement] = useState<ActiveElement>({

@@ -13,9 +13,11 @@ export const createRectangle = (pointer: fabric.Point) => {
     top: pointer.y,
     width: 100,
     height: 100,
-    fill: "#aabbcc",
+    fill: "#fff",
     objectId: uuidv4(),
-  } as CustomFabricObject<fabric.Rect>);
+    rx: 0,
+    ry: 0,
+  } as unknown as CustomFabricObject<fabric.Rect>);
 
   return rect;
 };
@@ -26,7 +28,7 @@ export const createTriangle = (pointer: fabric.Point) => {
     top: pointer.y,
     width: 100,
     height: 100,
-    fill: "#aabbcc",
+    fill: "#fff",
     objectId: uuidv4(),
   } as CustomFabricObject<fabric.Triangle>);
 };
@@ -141,7 +143,7 @@ export const modifyShape = ({
 
   if (!selectedElement || selectedElement?.type === "activeSelection") return;
 
-  // if  property is width or height, set the scale of the selected element
+  // if property is width or height, set the scale of the selected element
   if (property === "width") {
     selectedElement.set("scaleX", 1);
     selectedElement.set("width", value);  
@@ -149,8 +151,16 @@ export const modifyShape = ({
     selectedElement.set("scaleY", 1);
     selectedElement.set("height", value);
   } else {
-    if (selectedElement[property as keyof object] === value) return;
-    selectedElement.set(property as keyof object, value);
+    // Handle rx and ry separately
+    if (property === "rx") {
+      selectedElement.set("rx", value);
+      selectedElement.set("ry", value);
+    } else if (property === "ry") {
+      selectedElement.set("ry", value);
+    } else {
+      if (selectedElement[property as keyof object] === value) return;
+      selectedElement.set(property as keyof object, value);
+    }
   }
 
   // set selectedElement to activeObjectRef

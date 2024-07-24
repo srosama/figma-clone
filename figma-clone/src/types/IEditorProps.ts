@@ -43,6 +43,8 @@ export type ShapeData = {
 
 export type Attributes = {
   width: string;
+  rx?: string;
+  ry?: string;
   height: string;
   fontSize: string;
   fontFamily: string;

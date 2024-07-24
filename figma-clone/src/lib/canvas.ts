@@ -197,13 +197,8 @@ export const handleCanvasObjectModified = ({
   const target = options.target;
   if (!target) return;
 
-  if (target.type === "activeSelection") {
-    // Handle multiple selected objects
-    const activeSelection = target as fabric.ActiveSelection; // Cast to the correct type
-    console.log(activeSelection)
-    activeSelection.forEachObject((obj) => {
-      syncShapeInStorage(obj);
-    });
+  if (target?.type == "activeSelection") {
+    // fix this
   } else {
     syncShapeInStorage(target);
   }
@@ -365,6 +360,22 @@ export const renderCanvas = async ({
 
   // Debugging: Log current canvasObjects
   console.log('Canvas Objects:', canvasObjects);
+
+  var rect = new fabric.Rect({
+    left: 70,
+    top: 90,
+    width: 170,
+    height: 70,
+    fill: "#ffb347",
+    stroke: "#191970",
+    strokeWidth: 5,
+    padding: 7,
+    rx: 50,
+    ry: 40,
+  });
+
+  // Add it to the canvas
+  fabricRef.current.add(rect);
 
   const objectsArray = Array.from(canvasObjects.values());
   try {
