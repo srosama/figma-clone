@@ -188,7 +188,8 @@ export const handleCanvasMouseUp = ({
   }
 };
 
-// update shape in storage when object is modified fix this
+
+// !BUG fix the multi-selection 
 export const handleCanvasObjectModified = ({
   options,
   syncShapeInStorage,
@@ -196,37 +197,17 @@ export const handleCanvasObjectModified = ({
   const target = options.target;
   if (!target) return;
 
-  if (target?.type == "activeSelection") {
-    // fix this
-  } 
-  else {
+  if (target.type === "activeSelection") {
+    // Handle multiple selected objects
+    const activeSelection = target as fabric.ActiveSelection; // Cast to the correct type
+    console.log(activeSelection)
+    activeSelection.forEachObject((obj) => {
+      syncShapeInStorage(obj);
+    });
+  } else {
     syncShapeInStorage(target);
   }
 };
-
-
-// export const handleCanvasObjectModified = ({
-//   options,
-//   syncShapeInStorage,
-// }: CanvasObjectModified) => {
-//   const target = options.target;
-//   if (!target) {
-//     console.error("No target object found in the options.");
-//     return;
-//   }
-
-//   // Extract the object's ID and relevant properties
-//   const objectId = target.data?.id; // Assuming you store an ID in the data property of the object
-//   if (!objectId) {
-//     console.error("No ID found in the target object's data.");
-//     return;
-//   }
-
-//   console.log("Modified object:", target);
-
-//   // Sync the updated properties to the storage
-//   syncShapeInStorage(target);
-// };
 
 // export const handleCanvasObjectModified = ({
 //   options,

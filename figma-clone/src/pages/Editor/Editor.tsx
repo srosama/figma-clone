@@ -159,7 +159,7 @@ export default function Editor() {
     canvas.on("mouse:move", handleMouseMove);
     canvas.on("mouse:up", handleMouseUp);
     canvas.on("path:created", handlePathCreatedEvent);
-    // canvas.on("object:modified", handleObjectModifiedEvent);
+    canvas.on("object:modified", handleObjectModifiedEvent);
 
     canvas.on("selection:created", (options: any) => {
       handleCanvasSelectionCreated({
