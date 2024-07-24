@@ -41,10 +41,9 @@
   
   <img src="https://github.com/user-attachments/assets/1af7ae3c-2752-40f2-95e2-9fecd2af2968" alt="Screenshot from 2024-07-24 20-24-04"/>
   
-  <video controls>
-    <source src="[https://github.com/user-attachments/assets/8421b712-4f5b-4d46-8c64-f4f87b5381ad](https://github.com/user-attachments/assets/8421b712-4f5b-4d46-8c64-f4f87b5381ad)" type="video/webm">
-    Your browser does not support the video tag.
-  </video>
+![Description of GIF](https://github.com/user-attachments/assets/ae417f2f-698b-4ba3-859a-cdf730b97622)
+
+  
   <br>
 </details
 
