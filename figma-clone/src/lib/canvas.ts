@@ -14,8 +14,7 @@ import {
 import { createSpecificShape } from "./shapes";
 import { defaultNavElement } from "../utils";
 import { IEvent } from "fabric/fabric-impl";
-import { CodeIcon } from "@radix-ui/react-icons";
-import { escape } from "querystring";
+
 
 
 
@@ -155,6 +154,7 @@ export const handleCanvaseMouseMove = ({
 
   // sync shape in storage
   if (shapeRef.current?.objectId) {
+    console.log(shapeRef.current)
     syncShapeInStorage(shapeRef.current);
   }
 };
@@ -188,7 +188,7 @@ export const handleCanvasMouseUp = ({
   }
 };
 
-//! update shape in storage when object is modified fix this
+// update shape in storage when object is modified fix this
 export const handleCanvasObjectModified = ({
   options,
   syncShapeInStorage,
@@ -196,15 +196,37 @@ export const handleCanvasObjectModified = ({
   const target = options.target;
   if (!target) return;
 
-  // Extract the object's ID and relevant properties
-  const objectId = target.data?.id; // Assuming you store an ID in the data property of the object
-  if (!objectId) return;
-
-
-  // Sync the updated properties to the storage
-  syncShapeInStorage(target);
+  if (target?.type == "activeSelection") {
+    // fix this
+  } 
+  else {
+    syncShapeInStorage(target);
+  }
 };
 
+
+// export const handleCanvasObjectModified = ({
+//   options,
+//   syncShapeInStorage,
+// }: CanvasObjectModified) => {
+//   const target = options.target;
+//   if (!target) {
+//     console.error("No target object found in the options.");
+//     return;
+//   }
+
+//   // Extract the object's ID and relevant properties
+//   const objectId = target.data?.id; // Assuming you store an ID in the data property of the object
+//   if (!objectId) {
+//     console.error("No ID found in the target object's data.");
+//     return;
+//   }
+
+//   console.log("Modified object:", target);
+
+//   // Sync the updated properties to the storage
+//   syncShapeInStorage(target);
+// };
 
 // export const handleCanvasObjectModified = ({
 //   options,
@@ -358,43 +380,31 @@ export const renderCanvas = async ({
 }: RenderCanvas): Promise<void> => {
   if (!fabricRef.current) return;
 
+  fabricRef.current.clear();
+
+  // Debugging: Log current canvasObjects
+  console.log('Canvas Objects:', canvasObjects);
+
+  const objectsArray = Array.from(canvasObjects.values());
   try {
-    Array.from(canvasObjects, ([objectId, objectData])  => {
-      const enlivenedObjects = await fabric.util.enlivenObjects<fabric.FabricObject>(objectData);
+    const enlivenedObjects = await fabric.util.enlivenObjects<fabric.FabricObject>(objectsArray);
 
-      enlivenedObjects.forEach((obj) => {
-        if (activeObjectRef.current?.objectId === objectId) {
-          fabricRef.current?.setActiveObject(obj);
-        }
-        console.log("sdads", obj)
-        fabricRef.current?.add(obj);
-      });
+    // Debugging: Log enlivened objects
+    console.log('Enlivened Objects:', enlivenedObjects);
 
-    })
+    enlivenedObjects.forEach((obj, i) => {
+      if (activeObjectRef.current?.objectId === i) {
+        fabricRef.current?.setActiveObject(obj);
+      }
+
+      fabricRef.current?.add(obj);
+    });
+
     fabricRef.current.renderAll();
-
-
   } catch (error) {
     console.error('Failed to enliven objects:', error);
   }
-};
-
-
-// fabric.util.enlivenObjects(
-//   [objectData],
-//   (enlivenedObjects: fabric.FabricObject[]) => {
-//     enlivenedObjects.forEach((enlivenedObj) => {
-//       if (activeObjectRef.current?.objectId === objectId) {
-//         fabricRef.current?.setActiveObject(enlivenedObj);
-//       }
-
-//       // add object to canvas
-//       fabricRef.current?.add(enlivenedObj);
-//     });
-//   },
-//   "fabric"
-// );
-
+}
 
 // Resize canvas dimensions on window resize
 export const handleResize = ({ canvas }: { canvas: fabric.Canvas | null }) => {

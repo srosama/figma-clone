@@ -24,7 +24,7 @@ export default function RightSidebar({
     if (!isEditingRef.current) isEditingRef.current = true;
 
     setElementAttributes((prev) => ({ ...prev, [property]: value }));
-
+    console.log(property)
     modifyShape({
       canvas: fabricRef.current as Canvas,
       property,

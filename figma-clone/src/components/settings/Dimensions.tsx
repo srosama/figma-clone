@@ -35,7 +35,7 @@ const Dimensions = ({ width, height, isEditingRef, handleInputChange }: Props) =
             min={10}
             onChange={(e) => handleInputChange(item.property, e.target.value)}
             onBlur={(e) => {
-              isEditingRef.current = false
+            isEditingRef.current = false
             }}
           />
         </div>
