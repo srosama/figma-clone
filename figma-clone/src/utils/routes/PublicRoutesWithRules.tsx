@@ -1,10 +1,10 @@
-import { Navigate, Outlet } from "react-router-dom";
+import {  Outlet } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 
 const PublicRoutesWithRules = () => {
   const auth = useAuth();
   const isAuthenticated = !!auth.state.user; 
-
+  isAuthenticated
   if (auth.state.loading) {
     return <div>Loading...</div>;
   }

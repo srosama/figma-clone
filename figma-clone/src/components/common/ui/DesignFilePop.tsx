@@ -12,7 +12,7 @@ const DesignFilePop: React.FC<DesignFilePopProps> = ({ openClose, setShowModal }
 
   const handleSubmit = () => {
     setShowModal(false); // Close modal when submitting
-    // setRedirect(true)
+    setRedirect(true)
     setFileName("")
     console.log(fileName)
   };

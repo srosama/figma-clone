@@ -1,6 +1,3 @@
-import { DesignFileProp } from "../types/IDashBoardProp";
-import { thumbnailBg } from "../utils";
-
 export default function DesignFileObjects({ }) {
   return (
     <>
@@ -10,7 +7,7 @@ export default function DesignFileObjects({ }) {
           <div
             className="bg-[#1E1E1E]  border-[0.5px] border-borderColor 
              w-96 h-60 rounded-xl bg-center bg-cover bg-no-repeat bg-contain"
-            style={{ backgroundImage: `url(${thumbnailBg})` }}
+            // style={{ backgroundImage: `url(${thumbnailBg})` }}
           ></div>
 
 

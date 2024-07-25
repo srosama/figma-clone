@@ -14,6 +14,7 @@ import {
 } from "../../lib/canvas";
 import RightSidebar from "../../components/layout/editor/RightSidebar";
 import LeftSidebar from "../../components/layout/editor/LeftSidebar";
+import { LiveMap } from "@liveblocks/client";
 
 export default function Editor() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -24,7 +25,7 @@ export default function Editor() {
   const selectedShapeRef = useRef<string | null>(null);
   const activeObjectRef = useRef<FabricObject | null>(null);
   const isEditingRef = useRef(false);
-  const canvasObjects = useStorage((root) => root.canvasObjects);
+  const canvasObjects = useStorage((root) => root.canvasObjects as LiveMap<string, any>); // Add correct type here
   const imageInputRef = useRef<HTMLInputElement>(null);
   const undo = useUndo();
   const redo = useRedo();
@@ -35,7 +36,7 @@ export default function Editor() {
     const shapeData = object.toJSON();
     shapeData.objectId = objectId;
 
-    const canvasObjects = storage.get("canvasObjects");
+    const canvasObjects = storage.get("canvasObjects") as LiveMap<string, any>; // Add correct type here
     canvasObjects?.set(objectId, shapeData);
   }, []);
 
@@ -86,12 +87,12 @@ export default function Editor() {
   };
 
   const deleteShapeFromStorage = useMutation(({ storage }, shapeId) => {
-    const canvasObjects = storage.get("canvasObjects");
+    const canvasObjects = storage.get("canvasObjects") as LiveMap<string, any>; // Add correct type here
     canvasObjects?.delete(shapeId);
   }, []);
 
   const deleteAllShapes = useMutation(({ storage }) => {
-    const canvasObjects = storage.get("canvasObjects");
+    const canvasObjects = storage.get("canvasObjects") as LiveMap<string, any>; // Add correct type here
     if (!canvasObjects || canvasObjects.size === 0) return true;
     for (const [key] of canvasObjects.entries()) {
       canvasObjects.delete(key);
@@ -257,7 +258,7 @@ export default function Editor() {
         />
 
         <section className="flex h-full flex-row">
-          <LeftSidebar allShapes={Array.from(canvasObjects)} />
+          <LeftSidebar allShapes={Array.from(canvasObjects.entries())} />
           <Live canvasRef={canvasRef} undo={undo} redo={redo} />
           <RightSidebar
             elementAttributes={elementAttributes}
@@ -272,4 +273,3 @@ export default function Editor() {
     </>
   );
 }
-
